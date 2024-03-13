@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoList.Pages.RegistroPage"
+             Title="RegistroPage">
+    <VerticalStackLayout
+        Margin="20,0">
+        <Label 
+            Text="Registro"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center"
+            FontSize="24"
+            TextColor="#335E88"
+            Margin="0,20"/>
+        <Entry
+            Placeholder="Nombre"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            FontSize="16"
+            ></Entry>
+        <Entry
+            Placeholder="Correo electronico"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            FontSize="16"
+            ></Entry>
+        <Entry
+            Placeholder="Contraseña"
+            IsPassword="True"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            FontSize="16"
+            ></Entry>
+        <Entry
+            Placeholder="Repetir contraseña"
+            IsPassword="True"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            FontSize="16"
+            ></Entry>
+
+        <Button
+            Text="Registrar"
+            Command="{Binding RegistroCommand}"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Background="#335E88"
+            TextColor="White"
+            Margin="10,20"
+            FontSize="18"
+            ></Button>
+    </VerticalStackLayout>
+</ContentPage>

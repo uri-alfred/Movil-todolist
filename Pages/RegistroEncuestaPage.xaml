@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoList.Pages.RegistroEncuestaPage"
+             Title="RegistroEncuestaPage">
+    <VerticalStackLayout
+        Margin="20,0">
+        <Label 
+            Text="Listado de encuestas"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" 
+            FontSize="24"
+            TextColor="#335E88"
+            Margin="0,20"/>
+
+        <Button
+            Text="Registrar Encuesta"
+            Command="{Binding RegistraEncuestaCommand}"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Background="#335E88"
+            TextColor="White"
+            Margin="10,20"
+            FontSize="18"
+            ></Button>
+
+    </VerticalStackLayout>
+</ContentPage>

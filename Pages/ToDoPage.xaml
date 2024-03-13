@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoList.Pages.ToDoPage"
+             Title="ToDoPage"
+             xmlns:helpers="clr-namespace:TodoList.Helpers"
+             xmlns:local="clr-namespace:TodoList.ViewModels">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Add" Command="{Binding AbrirRegistroCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="MaterialDesignIcons"
+                                 Glyph="{x:Static helpers:MaterialIconHelper.Plus}"
+                                 Color="Black"
+                                 />
+            </ToolbarItem.IconImageSource> 
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+
+    <RefreshView 
+        IsRefreshing="{Binding IsRefresh}"
+        Command="{Binding AgregarTareasCommand}"
+        Margin="20,0">
+        <CollectionView
+            ItemsSource="{Binding Tareas}"
+            SelectionMode="Single"
+            SelectedItem="{Binding TareaSeleccionada}"
+            SelectionChangedCommand="{Binding EditarRegistroCommand}"
+            SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <VerticalStackLayout
+                        Padding="10"
+                        BackgroundColor="#4D335E88"
+                        Margin="0,10"
+                        >
+                        <Label
+                            Text="{Binding Titulo}"
+                            FontAttributes="Bold" />
+                        <Label
+                            Text="{Binding Descripcion}"
+                            FontAttributes="Italic"
+                            VerticalOptions="End" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+        </CollectionView>
+    </RefreshView>
+</ContentPage>

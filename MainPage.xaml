@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoList.MainPage"
+             xmlns:local="clr-namespace:TodoList.ViewModels" 
+             >
+    <ContentPage.BindingContext>
+        <local:MainViewModel />
+    </ContentPage.BindingContext>
+    <ScrollView>
+        <VerticalStackLayout
+            Padding="30,0"
+            Spacing="25"
+            VerticalOptions="Center">
+            <Image
+                Source="dotnet_bot.png"
+                HeightRequest="185"
+                Aspect="AspectFit"
+                SemanticProperties.Description="dot net bot in a race car number eight" />
+
+            <Label
+                Text="Hola!"
+                Style="{StaticResource Headline}"
+                SemanticProperties.HeadingLevel="Level1" />
+
+            <Label
+                Text="{Binding Mensaje}"
+                Style="{StaticResource SubHeadline}"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I" />
+
+            <Button
+                x:Name="CounterBtn"
+                Text="Click Increment" 
+                Command="{Binding IncrementCommand}"
+                SemanticProperties.Hint="Counts the number of times you click"
+                
+                HorizontalOptions="Center" />
+            <Button
+                x:Name="CounterBtn2"
+                Text="Click StartApp" 
+                Command="{Binding StartAppCommand}"
+                BackgroundColor="#335E88"
+                HorizontalOptions="Center" />
+            <Button
+                x:Name="BtnLogin"
+                Text="Inicio de sesión" 
+                Command="{Binding LoginCommand}"
+                BackgroundColor="#335E88"
+                HorizontalOptions="Center" />
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>
