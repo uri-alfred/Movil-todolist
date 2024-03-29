@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,42 @@ namespace TodoList.ViewModels
             };
 
             Shell.Current.GoToAsync(nameof(RegistroTareaPage), parametros);
+        }
+
+        [RelayCommand]
+        public async Task RemoveTask(Tarea tarea)
+        {
+            if (tarea == null)
+            {
+                return;
+            }
+
+            // Eliminar la tarea de Firebase
+            bool deletedFromFirebase = await fakeService.DeleteTaskAsync(tarea);
+
+            if (deletedFromFirebase)
+            {
+                // Si la tarea se eliminó correctamente de Firebase, también la eliminamos de nuestra colección local
+                Tareas.Remove(tarea);
+            }
+            else
+            {
+                // Manejar el caso en que la eliminación de la tarea de Firebase falla
+                Debug.WriteLine("La eliminación de la tarea de Firebase falló.");
+            }
+        }
+
+        [RelayCommand]
+        private void TaskCompleted(Tarea tarea)
+        {
+            if(tarea == null)
+            {
+                return;
+            }
+            if (tarea.TipoTarea == eTipoTarea.Encuesta)
+            {
+                Shell.Current.GoToAsync(nameof (RegistroTareaPage));
+            }
         }
     }
 }

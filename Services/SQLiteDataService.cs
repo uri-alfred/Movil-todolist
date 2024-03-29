@@ -41,5 +41,10 @@ namespace TodoList.Services
             Tasks = dataBase.Table<Tarea>().ToList();
             return Tasks;
         }
+
+        public Task<bool> DeleteTaskAsync(Tarea tarea)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoList.Pages.LoginPage"
-             Title="LoginPage">
+             NavigationPage.HasNavigationBar="False">
 
     <VerticalStackLayout
         Margin="20,0">
@@ -19,7 +19,9 @@
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
             FontSize="16"
+            Text="{Binding Lgin.email.Value}"
             ></Entry>
+        <Label Text="{Binding Lgin.email.Error}" TextColor="Red" Margin="10,0" />
         <Entry
             Placeholder="Contraseña"
             IsPassword="True"
@@ -27,7 +29,9 @@
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
             FontSize="16"
+            Text="{Binding Lgin.password.Value}"
             ></Entry>
+        <Label Text="{Binding Lgin.password.Error}" TextColor="Red" Margin="10,0" />
 
         <Button
             Text="Iniciar sesión"

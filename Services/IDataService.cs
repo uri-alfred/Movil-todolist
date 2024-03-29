@@ -14,5 +14,6 @@ namespace TodoList.Services
         }
         public Task AddTask(Tarea tarea);
         public List<Tarea> GetTasks();
+        Task<bool> DeleteTaskAsync(Tarea tarea);
     }
 }

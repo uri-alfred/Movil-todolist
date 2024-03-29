@@ -30,5 +30,10 @@ namespace TodoList.Services
         {
             return Tasks;
         }
+
+        public Task<bool> DeleteTaskAsync(Tarea tarea)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

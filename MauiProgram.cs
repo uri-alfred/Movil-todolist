@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using CommunityToolkit.Maui;
+using Firebase.Auth;
+using Firebase.Auth.Providers;
+using Microsoft.Extensions.Logging;
 using TodoList.Pages;
 using TodoList.Services;
 using TodoList.ViewModels;
@@ -13,7 +16,7 @@ namespace TodoList
             // inyeccion de dependencias // IDataService, 
             #if DEBUG
             builder.Services.AddSingleton<IDataService, FakeTaskService>();
-            builder.Services.AddSingleton<IDataService, FirebaseDataService>();
+            builder.Services.AddSingleton<IDataService>(new FirebaseDataService());
             #endif
             builder.Services.AddTransient<RegistroTareaPage>();
             builder.Services.AddTransient<RegistroTareaViewModel>();
@@ -31,6 +34,9 @@ namespace TodoList
 
             builder
                 .UseMauiApp<App>()
+                #if WINDOWS
+                .UseMauiCommunityToolkit()
+                #endif
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -38,9 +44,19 @@ namespace TodoList
                     fonts.AddFont("materialdesignicons-webfont.ttf", "MaterialDesignIcons");
                 });
 
-            #if DEBUG
+#if DEBUG
     		builder.Logging.AddDebug();
-            #endif
+#endif
+
+            builder.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
+            {
+                ApiKey = "AIzaSyDmyQt9Z-gJI6O9bU6cfaJRyNt-yZejTCw",
+                AuthDomain = "todolist-1e486.firebaseapp.com",
+                Providers = new FirebaseAuthProvider[]
+                {
+                    new EmailProvider()
+                }
+            }));
 
             return builder.Build();
         }

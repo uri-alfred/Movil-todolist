@@ -2,16 +2,22 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoList.Pages.ToDoPage"
-             Title="ToDoPage"
+             Title=""
              xmlns:helpers="clr-namespace:TodoList.Helpers"
-             xmlns:local="clr-namespace:TodoList.ViewModels">
+             xmlns:local="clr-namespace:TodoList.ViewModels"
+             xmlns:converts="clr-namespace:TodoList.Converters">
+             <!--xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"-->
+
+    <ContentPage.Resources>
+        <converts:TareaCompletadaConverter x:Key="tareaCompletadaConverter" />
+        <converts:IsTareaCompletadaConverter x:Key="isTareaCompletadaConverter" />
+    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Add" Command="{Binding AbrirRegistroCommand}">
             <ToolbarItem.IconImageSource>
                 <FontImageSource FontFamily="MaterialDesignIcons"
                                  Glyph="{x:Static helpers:MaterialIconHelper.Plus}"
-                                 Color="Black"
                                  />
             </ToolbarItem.IconImageSource> 
         </ToolbarItem>
@@ -23,27 +29,63 @@
         Command="{Binding AgregarTareasCommand}"
         Margin="20,0">
         <CollectionView
+            x:Name="mCollectionView"
             ItemsSource="{Binding Tareas}"
             SelectionMode="Single"
             SelectedItem="{Binding TareaSeleccionada}"
             SelectionChangedCommand="{Binding EditarRegistroCommand}"
-            SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}">
+            SelectionChangedCommandParameter="{Binding Path=SelectedItem, Source={RelativeSource Self}}"
+          >
 
             <CollectionView.ItemTemplate>
                 <DataTemplate>
+                    <Grid Padding="10" BackgroundColor="#4D335E88" Margin="0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        
+                            <CheckBox
+                                x:Name="mCheck"
+                                Grid.Column="0"
+                                IsChecked="{Binding Estado, Converter={StaticResource isTareaCompletadaConverter}}"
+                                >
+                            <!--<CheckBox.Behaviors>
+                                <toolkit:EventToCommandBehavior
+                                    EventName="CheckedChanged"
+                                    Command="{Binding Path=BindingContext.TaskCompletedCommand, Source={Reference mCollectionView}}"
+                                    CommandParameter="{Binding .}">
+                                    
+                                </toolkit:EventToCommandBehavior>
+                            </CheckBox.Behaviors>-->
+                            </CheckBox>
+                        
                     <VerticalStackLayout
+                        Grid.Column="1"
+                        Grid.ColumnSpan="4"
                         Padding="10"
-                        BackgroundColor="#4D335E88"
-                        Margin="0,10"
                         >
                         <Label
                             Text="{Binding Titulo}"
-                            FontAttributes="Bold" />
+                            FontAttributes="Bold"
+                            TextDecorations="{Binding Source={x:Reference mCheck}, Path=IsChecked, Converter={StaticResource tareaCompletadaConverter}}"/>
                         <Label
                             Text="{Binding Descripcion}"
                             FontAttributes="Italic"
-                            VerticalOptions="End" />
+                            VerticalOptions="End"
+                            TextDecorations="{Binding Source={x:Reference mCheck}, Path=IsChecked, Converter={StaticResource tareaCompletadaConverter}}"/>
                     </VerticalStackLayout>
+                        <Button 
+                            Text="{x:Static helpers:MaterialIconHelper.Delete}" 
+                            Grid.Column="2"
+                            FontFamily="MaterialDesignIcons" 
+                            TextColor="Red"
+                            Background="Transparent"
+                            FontSize="Large"
+                            Command="{Binding Path=BindingContext.RemoveTaskCommand, Source={Reference mCollectionView}}" 
+                            CommandParameter="{Binding .}" />
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
 

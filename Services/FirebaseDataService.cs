@@ -25,12 +25,28 @@ namespace TodoList.Services
 
         public async Task AddTask(Tarea tarea)
         {
-            await firebaseClient.Child("Todo").PostAsync(tarea);
+            var firebaseObject = await firebaseClient.Child("Todo").PostAsync(tarea);
+            tarea.Id = firebaseObject.Key;
+            // Actualizar el documento en Firebase con el ID generado
+            await firebaseClient.Child("Todo").Child(tarea.Id).PutAsync(tarea);
         }
 
         public List<Tarea> GetTasks()
         {
             return Tasks;
+        }
+
+        public async Task<bool> DeleteTaskAsync(Tarea tarea)
+        {
+            try
+            {
+                await firebaseClient.Child("Todo").Child(tarea.Id).DeleteAsync();
+                return true; // La eliminación fue exitosa
+            }
+            catch (Exception)
+            {
+                return false; // La eliminación falló
+            }
         }
     }
 }

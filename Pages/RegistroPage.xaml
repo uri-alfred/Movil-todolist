@@ -2,7 +2,7 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoList.Pages.RegistroPage"
-             Title="RegistroPage">
+             NavigationPage.HasNavigationBar="False">
     <VerticalStackLayout
         Margin="20,0">
         <Label 
@@ -18,14 +18,18 @@
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
             FontSize="16"
+            Text="{Binding Reg.Username.Value}"
             ></Entry>
+        <Label Text="{Binding Reg.Username.Error}" TextColor="Red" Margin="10,0" />
         <Entry
             Placeholder="Correo electronico"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
             FontSize="16"
+            Text="{Binding Reg.Email.Value}"
             ></Entry>
+        <Label Text="{Binding Reg.Email.Error}" TextColor="Red" Margin="10,0" />
         <Entry
             Placeholder="Contraseña"
             IsPassword="True"
@@ -33,7 +37,9 @@
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
             FontSize="16"
+            Text="{Binding Reg.Password.Value}"
             ></Entry>
+        <Label Text="{Binding Reg.Password.Error}" TextColor="Red" Margin="10,0" />
         <Entry
             Placeholder="Repetir contraseña"
             IsPassword="True"
@@ -41,7 +47,9 @@
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
             FontSize="16"
+            Text="{Binding Reg.RepeatPassword.Value}"
             ></Entry>
+        <Label Text="{Binding Reg.RepeatPassword.Error}" TextColor="Red" Margin="10,0" />
 
         <Button
             Text="Registrar"
@@ -53,5 +61,17 @@
             Margin="10,20"
             FontSize="18"
             ></Button>
+        <Label
+        Text="Ya tienes una cuenta? Inicia sesión"
+        VerticalOptions="Center"
+        HorizontalOptions="Center"
+        Margin="10,30"
+        FontSize="16"
+        TextColor="#335E88"
+>
+            <Label.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding InicioSesionPageCommand}" />
+            </Label.GestureRecognizers>
+        </Label>
     </VerticalStackLayout>
 </ContentPage>

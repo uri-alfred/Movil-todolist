@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,9 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private Tarea tarea;
 
+        [ObservableProperty]
+        private string tituloPage;
+
         private IDataService fakeService;
 
                                                     //puede definirse a este nivel o en el constructor
@@ -28,6 +32,7 @@ namespace TodoList.ViewModels
         {
             tarea = new Tarea();
             fakeService = service;
+            TituloPage = "Nueva Tarea";
         }
 
         [RelayCommand]
@@ -42,6 +47,7 @@ namespace TodoList.ViewModels
             if (query.TryGetValue("TAREA", out value))
             {
                 Tarea = value as Tarea;
+                TituloPage = "Editar tarea";
             }
             if (query.TryGetValue("ENCUESTA", out value))
             {
