@@ -5,8 +5,8 @@
              Title=""
              xmlns:helpers="clr-namespace:TodoList.Helpers"
              xmlns:local="clr-namespace:TodoList.ViewModels"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:converts="clr-namespace:TodoList.Converters">
-             <!--xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"-->
 
     <ContentPage.Resources>
         <converts:TareaCompletadaConverter x:Key="tareaCompletadaConverter" />
@@ -51,14 +51,14 @@
                                 Grid.Column="0"
                                 IsChecked="{Binding Estado, Converter={StaticResource isTareaCompletadaConverter}}"
                                 >
-                            <!--<CheckBox.Behaviors>
+                            <CheckBox.Behaviors>
                                 <toolkit:EventToCommandBehavior
                                     EventName="CheckedChanged"
                                     Command="{Binding Path=BindingContext.TaskCompletedCommand, Source={Reference mCollectionView}}"
                                     CommandParameter="{Binding .}">
                                     
                                 </toolkit:EventToCommandBehavior>
-                            </CheckBox.Behaviors>-->
+                            </CheckBox.Behaviors>
                             </CheckBox>
                         
                     <VerticalStackLayout

@@ -17,10 +17,6 @@ namespace TodoList.Services
         public FirebaseDataService()
         {
             firebaseClient = new FirebaseClient("https://todolist-1e486-default-rtdb.firebaseio.com/");
-            firebaseClient
-                .Child("Todo")
-                .AsObservable<Tarea>()
-                .Subscribe( item => Tasks.Add(item.Object));
         }
 
         public async Task AddTask(Tarea tarea)
@@ -28,12 +24,24 @@ namespace TodoList.Services
             var firebaseObject = await firebaseClient.Child("Todo").PostAsync(tarea);
             tarea.Id = firebaseObject.Key;
             // Actualizar el documento en Firebase con el ID generado
-            await firebaseClient.Child("Todo").Child(tarea.Id).PutAsync(tarea);
+            //await firebaseClient.Child("Todo").Child(tarea.Id).PutAsync(tarea);
         }
 
-        public List<Tarea> GetTasks()
+        public async Task<List<Tarea>> GetTasks()
         {
-            return Tasks;
+            return (await firebaseClient.Child("Todo").OnceAsync<Tarea>()).Select(item => new Tarea
+            {
+                Id = item.Key,
+                Titulo = item.Object.Titulo,
+                Descripcion = item.Object.Descripcion,
+                FechaInicial = item.Object.FechaInicial,
+                FechaFinal = item.Object.FechaFinal,
+                TipoTarea = item.Object.TipoTarea,
+                Prioridad = item.Object.Prioridad,
+                Estado = item.Object.Estado,
+                Encuesta = item.Object.Encuesta,
+                URL = item.Object.URL,
+            }).ToList();
         }
 
         public async Task<bool> DeleteTaskAsync(Tarea tarea)
@@ -46,6 +54,19 @@ namespace TodoList.Services
             catch (Exception)
             {
                 return false; // La eliminación falló
+            }
+        }
+
+        public async Task<bool> EditTaskAsync(Tarea tarea)
+        {
+            try
+            {
+                await firebaseClient.Child("Todo").Child(tarea.Id).PutAsync(tarea);
+                return true; // La edición fue exitosa
+            }
+            catch (Exception)
+            {
+                return false; // La edición falló
             }
         }
     }

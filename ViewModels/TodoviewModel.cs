@@ -38,10 +38,19 @@ namespace TodoList.ViewModels
             IsRefresh = false;
         }
 
-        void RefreshItems()
+        async Task RefreshItems()
         {
+            // Obtener las tareas actualizadas del servicio
+            List<Tarea> nuevasTareas = await fakeService.GetTasks();
+
+            // Limpiar la lista actual de tareas en el ViewModel
             Tareas.Clear();
-            fakeService.Tasks.ForEach(Tareas.Add);
+
+            // Agregar las nuevas tareas a la lista en el ViewModel
+            foreach (var tarea in nuevasTareas)
+            {
+                Tareas.Add(tarea);
+            }
         }
 
         [RelayCommand]

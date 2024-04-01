@@ -21,6 +21,8 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private string tituloPage;
 
+        private bool isEditar { get; set; } = false;
+
         private IDataService fakeService;
 
                                                     //puede definirse a este nivel o en el constructor
@@ -38,7 +40,14 @@ namespace TodoList.ViewModels
         [RelayCommand]
         private void Guardar()
         {
-            fakeService.AddTask(Tarea);
+            if (isEditar)
+            {
+                fakeService.EditTaskAsync(Tarea);
+            }
+            else
+            {
+                fakeService.AddTask(Tarea);
+            }
             Shell.Current.GoToAsync("..");
         }
         public void ApplyQueryAttributes(IDictionary<string, object> query)
@@ -48,6 +57,7 @@ namespace TodoList.ViewModels
             {
                 Tarea = value as Tarea;
                 TituloPage = "Editar tarea";
+                isEditar = true;
             }
             if (query.TryGetValue("ENCUESTA", out value))
             {

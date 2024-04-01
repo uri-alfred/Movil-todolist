@@ -15,7 +15,6 @@ namespace TodoList
             var builder = MauiApp.CreateBuilder();
             // inyeccion de dependencias // IDataService, 
             #if DEBUG
-            builder.Services.AddSingleton<IDataService, FakeTaskService>();
             builder.Services.AddSingleton<IDataService>(new FirebaseDataService());
             #endif
             builder.Services.AddTransient<RegistroTareaPage>();
@@ -35,8 +34,8 @@ namespace TodoList
             builder
                 .UseMauiApp<App>()
                 #if WINDOWS
-                .UseMauiCommunityToolkit()
                 #endif
+                .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
@@ -44,9 +43,9 @@ namespace TodoList
                     fonts.AddFont("materialdesignicons-webfont.ttf", "MaterialDesignIcons");
                 });
 
-#if DEBUG
+            #if DEBUG
     		builder.Logging.AddDebug();
-#endif
+            #endif
 
             builder.Services.AddSingleton(new FirebaseAuthClient(new FirebaseAuthConfig()
             {

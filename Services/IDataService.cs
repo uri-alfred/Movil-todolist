@@ -13,7 +13,8 @@ namespace TodoList.Services
             get; set; 
         }
         public Task AddTask(Tarea tarea);
-        public List<Tarea> GetTasks();
+        public Task<List<Tarea>> GetTasks();
         Task<bool> DeleteTaskAsync(Tarea tarea);
+        Task<bool> EditTaskAsync(Tarea tarea);
     }
 }

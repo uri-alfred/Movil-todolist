@@ -3,109 +3,111 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoList.Pages.RegistroTareaPage"
              xmlns:local="clr-namespace:TodoList.Converters"
-             Title="Tarea">
+             Title="">
 
     <ContentPage.Resources>
         <local:IsTareaTipoEncuesta x:Key="isTareaTipoEncuesta" />
     </ContentPage.Resources>
 
-    <VerticalStackLayout
-        Margin="20,0">
-        <Label 
-            Text="{Binding TituloPage}"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center"
-            FontSize="24"
-            TextColor="#335E88"
-            Margin="0,20"/>
-        <Entry
-            Placeholder="Titulo"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            FontSize="16"
-            Text="{Binding Tarea.Titulo}"
-            ></Entry>
-        <Entry
-            Placeholder="Descripción"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            FontSize="16"
-            Text="{Binding Tarea.Descripcion}"
-            ></Entry>
-        <DatePicker
-            Date="{Binding Tarea.FechaInicial}"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            FontSize="16"
-            ></DatePicker>
-        <DatePicker
-            Date="{Binding Tarea.FechaFinal}"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            FontSize="16"
-            ></DatePicker>
+    <ScrollView>
+        <VerticalStackLayout
+            Margin="20,0">
+            <Label 
+                Text="{Binding TituloPage}"
+                VerticalOptions="Center" 
+                HorizontalOptions="Center"
+                FontSize="24"
+                TextColor="#335E88"
+                Margin="0,20"/>
+            <Entry
+                Placeholder="Titulo"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                FontSize="16"
+                Text="{Binding Tarea.Titulo}"
+                ></Entry>
+            <Entry
+                Placeholder="Descripción"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                FontSize="16"
+                Text="{Binding Tarea.Descripcion}"
+                ></Entry>
+            <DatePicker
+                Date="{Binding Tarea.FechaInicial}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                FontSize="16"
+                ></DatePicker>
+            <DatePicker
+                Date="{Binding Tarea.FechaFinal}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                FontSize="16"
+                ></DatePicker>
 
-        <Picker
-            x:Name="pikerTipo"
-            Title="Tipo de tarea"
+            <Picker
+                x:Name="pikerTipo"
+                Title="Tipo de tarea"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                ItemsSource="{Binding TiposTareas}"
+                ></Picker>
+            <Picker
+                x:Name="pikerPrioridad"
+                Title="Prioridad"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                ItemsSource="{Binding Prioridad}"
+                ></Picker>
+            <Picker
+            x:Name="pikerEstado"
+            Title="Estado"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
-            ItemsSource="{Binding TiposTareas}"
+            ItemsSource="{Binding Estado}"
             ></Picker>
-        <Picker
-            x:Name="pikerPrioridad"
-            Title="Prioridad"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            ItemsSource="{Binding Prioridad}"
-            ></Picker>
-        <Picker
-        x:Name="pikerEstado"
-        Title="Estado"
-        VerticalOptions="StartAndExpand"
-        HorizontalOptions="FillAndExpand"
-        Margin="10,0"
-        ItemsSource="{Binding Estado}"
-        ></Picker>
 
-        <Entry
-            Placeholder="Url"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            FontSize="16"
-            Text="{Binding Tarea.URL}"
-            >
-            
-        </Entry>
+            <Entry
+                Placeholder="Url"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Margin="10,0"
+                FontSize="16"
+                Text="{Binding Tarea.URL}"
+                >
 
-        <Button
-            Text="Agregar encuesta"
-            IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
-            Command="{Binding AbrirRegistroEncuestaCommand}"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Background="#4D335E88"
-            TextColor="#335E88"
-            Margin="10,20"
-            FontSize="18"
-            ></Button>
+            </Entry>
 
-        <Button
-            Text="Registrar Tarea"
-            Command="{Binding GuardarCommand}"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Background="#335E88"
-            TextColor="White"
-            Margin="10,20"
-            FontSize="18"
-            ></Button>
-    </VerticalStackLayout>
+            <Button
+                Text="Agregar encuesta"
+                IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
+                Command="{Binding AbrirRegistroEncuestaCommand}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Background="#4D335E88"
+                TextColor="#335E88"
+                Margin="10,20"
+                FontSize="18"
+                ></Button>
+
+            <Button
+                Text="Guardar"
+                Command="{Binding GuardarCommand}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Background="#335E88"
+                TextColor="White"
+                Margin="10,20"
+                FontSize="18"
+                ></Button>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>
