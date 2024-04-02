@@ -105,6 +105,7 @@ namespace TodoList.ViewModels
             {
                 return;
             }
+            fakeService.EditTaskAsync(tarea);
             if (tarea.TipoTarea == eTipoTarea.Encuesta)
             {
                 Shell.Current.GoToAsync(nameof (RegistroTareaPage));

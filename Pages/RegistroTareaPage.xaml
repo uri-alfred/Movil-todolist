@@ -7,6 +7,7 @@
 
     <ContentPage.Resources>
         <local:IsTareaTipoEncuesta x:Key="isTareaTipoEncuesta" />
+        <local:EstadoToStringConverter x:Key="EstadoToStringConverter" />
     </ContentPage.Resources>
 
     <ScrollView>
@@ -19,7 +20,14 @@
                 FontSize="24"
                 TextColor="#335E88"
                 Margin="0,20"/>
+            <Label 
+                Text="{Binding Tarea.Estado, Converter={StaticResource EstadoToStringConverter}}"
+                VerticalOptions="Center" 
+                HorizontalOptions="End"
+                FontSize="20"
+                Margin="0,20"/>
             <Entry
+                IsEnabled="{Binding IsConfigurable}"
                 Placeholder="Titulo"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -28,6 +36,7 @@
                 Text="{Binding Tarea.Titulo}"
                 ></Entry>
             <Entry
+                IsEnabled="{Binding IsConfigurable}"
                 Placeholder="Descripción"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -36,6 +45,7 @@
                 Text="{Binding Tarea.Descripcion}"
                 ></Entry>
             <DatePicker
+                IsEnabled="{Binding IsConfigurable}"
                 Date="{Binding Tarea.FechaInicial}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -43,6 +53,7 @@
                 FontSize="16"
                 ></DatePicker>
             <DatePicker
+                IsEnabled="{Binding IsConfigurable}"
                 Date="{Binding Tarea.FechaFinal}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -52,6 +63,7 @@
 
             <Picker
                 x:Name="pikerTipo"
+                IsEnabled="{Binding IsConfigurable}"
                 Title="Tipo de tarea"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -60,22 +72,16 @@
                 ></Picker>
             <Picker
                 x:Name="pikerPrioridad"
+                IsEnabled="{Binding IsConfigurable}"
                 Title="Prioridad"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
                 Margin="10,0"
                 ItemsSource="{Binding Prioridad}"
                 ></Picker>
-            <Picker
-            x:Name="pikerEstado"
-            Title="Estado"
-            VerticalOptions="StartAndExpand"
-            HorizontalOptions="FillAndExpand"
-            Margin="10,0"
-            ItemsSource="{Binding Estado}"
-            ></Picker>
 
             <Entry
+                IsEnabled="{Binding IsConfigurable}"
                 Placeholder="Url"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -100,6 +106,7 @@
 
             <Button
                 Text="Guardar"
+                IsVisible="{Binding IsConfigurable}"
                 Command="{Binding GuardarCommand}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -108,6 +115,21 @@
                 Margin="10,20"
                 FontSize="18"
                 ></Button>
+            
+            <Button
+                Text="Cancelar"
+                IsVisible="{Binding IsActivo}"
+                Command="{Binding CancelarCommand}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand" 
+                Background="White"
+                TextColor="red"
+                BorderColor="red"
+                BorderWidth="3"
+                Margin="10,30" 
+                FontSize="18" 
+                ></Button>
+            
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

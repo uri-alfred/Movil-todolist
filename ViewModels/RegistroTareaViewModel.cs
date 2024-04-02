@@ -21,6 +21,12 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private string tituloPage;
 
+        [ObservableProperty]
+        private bool isActivo;
+
+        [ObservableProperty]
+        private bool isConfigurable;
+
         private bool isEditar { get; set; } = false;
 
         private IDataService fakeService;
@@ -35,6 +41,8 @@ namespace TodoList.ViewModels
             tarea = new Tarea();
             fakeService = service;
             TituloPage = "Nueva Tarea";
+            isActivo = false;
+            isConfigurable = true;
         }
 
         [RelayCommand]
@@ -46,6 +54,7 @@ namespace TodoList.ViewModels
             }
             else
             {
+                Tarea.Estado = eEstado.Activo;
                 fakeService.AddTask(Tarea);
             }
             Shell.Current.GoToAsync("..");
@@ -58,6 +67,14 @@ namespace TodoList.ViewModels
                 Tarea = value as Tarea;
                 TituloPage = "Editar tarea";
                 isEditar = true;
+                if (Tarea.Estado == eEstado.Activo)
+                {
+                    IsActivo = true;
+                }
+                if (Tarea.Estado == eEstado.Completado || Tarea.Estado == eEstado.Cancelado)
+                {
+                    IsConfigurable = false;
+                }
             }
             if (query.TryGetValue("ENCUESTA", out value))
             {
@@ -69,6 +86,14 @@ namespace TodoList.ViewModels
         public void AbrirRegistroEncuesta()
         {
             Shell.Current.GoToAsync(nameof(RegistroEncuestaPage));
+        }
+        
+        [RelayCommand]
+        public void Cancelar()
+        {
+            Tarea.Estado = eEstado.Cancelado;
+            fakeService.EditTaskAsync(Tarea);
+            Shell.Current.GoToAsync("..");
         }
 
     }
