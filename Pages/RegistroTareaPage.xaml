@@ -24,6 +24,7 @@
                 Text="{Binding Tarea.Estado, Converter={StaticResource EstadoToStringConverter}}"
                 VerticalOptions="Center" 
                 HorizontalOptions="End"
+                TextColor="Gray"
                 FontSize="20"
                 Margin="0,20"/>
             <Entry
@@ -69,6 +70,7 @@
                 HorizontalOptions="FillAndExpand"
                 Margin="10,0"
                 ItemsSource="{Binding TiposTareas}"
+                SelectedItem="{Binding TipoTareaSeleccionada}"
                 ></Picker>
             <Picker
                 x:Name="pikerPrioridad"
@@ -78,9 +80,10 @@
                 HorizontalOptions="FillAndExpand"
                 Margin="10,0"
                 ItemsSource="{Binding Prioridad}"
+                SelectedItem="{Binding TipoPrioridadSeleccionada}"
                 ></Picker>
 
-            <Entry
+            <!--<Entry
                 IsEnabled="{Binding IsConfigurable}"
                 Placeholder="Url"
                 VerticalOptions="StartAndExpand"
@@ -89,8 +92,7 @@
                 FontSize="16"
                 Text="{Binding Tarea.URL}"
                 >
-
-            </Entry>
+            </Entry>-->
 
             <Button
                 Text="Agregar encuesta"

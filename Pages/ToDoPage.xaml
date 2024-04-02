@@ -11,6 +11,7 @@
     <ContentPage.Resources>
         <converts:TareaCompletadaConverter x:Key="tareaCompletadaConverter" />
         <converts:IsTareaCompletadaConverter x:Key="isTareaCompletadaConverter" />
+        <converts:IsTareaToComplete x:Key="isTareaToComplete" />
     </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
@@ -50,6 +51,7 @@
                                 x:Name="mCheck"
                                 Grid.Column="0"
                                 IsChecked="{Binding Estado, Converter={StaticResource isTareaCompletadaConverter}}"
+                                IsEnabled="{Binding Estado, Converter={StaticResource isTareaToComplete}}"
                                 >
                             <CheckBox.Behaviors>
                                 <toolkit:EventToCommandBehavior

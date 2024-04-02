@@ -99,16 +99,16 @@ namespace TodoList.ViewModels
         }
 
         [RelayCommand]
-        private void TaskCompleted(Tarea tarea)
+        private async Task TaskCompleted(Tarea tarea)
         {
             if(tarea == null)
             {
                 return;
             }
-            fakeService.EditTaskAsync(tarea);
+            await fakeService.EditTaskAsync(tarea);
             if (tarea.TipoTarea == eTipoTarea.Encuesta)
             {
-                Shell.Current.GoToAsync(nameof (RegistroTareaPage));
+                _ = Shell.Current.GoToAsync(nameof(RegistroTareaPage));
             }
         }
     }

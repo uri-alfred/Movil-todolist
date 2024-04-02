@@ -7,7 +7,7 @@ using Plugin.ValidationRules.Interfaces;
 
 namespace TodoList.Rules
 {
-    internal class PasswordRule : IValidationRule<string>
+    public class PasswordRule : IValidationRule<string>
     {
         public string ValidationMessage { get; set; }
         public bool Check(string value)

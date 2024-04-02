@@ -27,6 +27,12 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private bool isConfigurable;
 
+        [ObservableProperty]
+        private string tipoTareaSeleccionada;
+
+        [ObservableProperty]
+        private string tipoPrioridadSeleccionada;
+
         private bool isEditar { get; set; } = false;
 
         private IDataService fakeService;
@@ -43,6 +49,8 @@ namespace TodoList.ViewModels
             TituloPage = "Nueva Tarea";
             isActivo = false;
             isConfigurable = true;
+            tipoTareaSeleccionada = string.Empty;
+            tipoPrioridadSeleccionada = string.Empty;
         }
 
         [RelayCommand]
@@ -54,6 +62,11 @@ namespace TodoList.ViewModels
             }
             else
             {
+                //if (TipoTareaSeleccionada.Equals(string.Empty) || TipoPrioridadSeleccionada.Equals(string.Empty))
+                //{
+                //    Tarea.TipoTarea = eTipoTarea.Normal;
+                //    Tarea.Prioridad = ePrioridad.Baja;
+                //}
                 Tarea.Estado = eEstado.Activo;
                 fakeService.AddTask(Tarea);
             }
@@ -67,6 +80,8 @@ namespace TodoList.ViewModels
                 Tarea = value as Tarea;
                 TituloPage = "Editar tarea";
                 isEditar = true;
+                TipoTareaSeleccionada = Tarea.TipoTarea.ToString();
+                TipoPrioridadSeleccionada = Tarea.Prioridad.ToString();
                 if (Tarea.Estado == eEstado.Activo)
                 {
                     IsActivo = true;
@@ -89,11 +104,11 @@ namespace TodoList.ViewModels
         }
         
         [RelayCommand]
-        public void Cancelar()
+        public async Task Cancelar()
         {
             Tarea.Estado = eEstado.Cancelado;
-            fakeService.EditTaskAsync(Tarea);
-            Shell.Current.GoToAsync("..");
+            await fakeService.EditTaskAsync(Tarea);
+            _ = Shell.Current.GoToAsync("..");
         }
 
     }

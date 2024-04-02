@@ -23,8 +23,6 @@ namespace TodoList.Services
         {
             var firebaseObject = await firebaseClient.Child("Todo").PostAsync(tarea);
             tarea.Id = firebaseObject.Key;
-            // Actualizar el documento en Firebase con el ID generado
-            //await firebaseClient.Child("Todo").Child(tarea.Id).PutAsync(tarea);
         }
 
         public async Task<List<Tarea>> GetTasks()
