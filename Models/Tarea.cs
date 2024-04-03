@@ -19,6 +19,7 @@ namespace TodoList.Models
         public eEstado Estado { get; set; }
         public Encuesta Encuesta { get; set; }
         public string URL { get; set; }
+        public string NombreArchivo { get; set; }
 
     }
 }

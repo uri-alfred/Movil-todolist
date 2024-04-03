@@ -28,49 +28,59 @@ namespace TodoList.ViewModels
         private bool isConfigurable;
 
         [ObservableProperty]
-        private string tipoTareaSeleccionada;
+        private bool isSelectOtherFile;
 
         [ObservableProperty]
-        private string tipoPrioridadSeleccionada;
+        private string archivoSeleccionado;
 
         private bool isEditar { get; set; } = false;
+        public string fileName { get; set; }
+        private bool siGuardo { get; set; }
 
         private IDataService fakeService;
+        private IStorageService storageService;
 
                                                     //puede definirse a este nivel o en el constructor
         public string[] TiposTareas { get; set; } = (string[])Enum.GetNames(typeof(eTipoTarea));
         public string[] Prioridad { get; set; } = (string[])Enum.GetNames(typeof(ePrioridad));
         public string[] Estado { get; set; } = (string[])Enum.GetNames(typeof(eEstado));
 
-        public RegistroTareaViewModel(IDataService service)
+        public RegistroTareaViewModel(IDataService service, IStorageService storageService)
         {
             tarea = new Tarea();
             fakeService = service;
+            this.storageService = storageService;
             TituloPage = "Nueva Tarea";
             isActivo = false;
             isConfigurable = true;
-            tipoTareaSeleccionada = string.Empty;
-            tipoPrioridadSeleccionada = string.Empty;
+            siGuardo = false;
+            isSelectOtherFile = true;
+            archivoSeleccionado = string.Empty;
         }
 
         [RelayCommand]
-        private void Guardar()
+        private async void Guardar()
         {
-            if (isEditar)
+            if (Tarea.Titulo == null || Tarea.Descripcion == null ||
+                string.Empty.Equals(Tarea.Titulo) || string.Empty.Equals(Tarea.Descripcion))
             {
-                fakeService.EditTaskAsync(Tarea);
-            }
-            else
+                await Application.Current.MainPage.DisplayAlert("Error", "El titulo y la descripción de tarea no deben estar vacios.", "Ok");
+            } else
             {
-                //if (TipoTareaSeleccionada.Equals(string.Empty) || TipoPrioridadSeleccionada.Equals(string.Empty))
-                //{
-                //    Tarea.TipoTarea = eTipoTarea.Normal;
-                //    Tarea.Prioridad = ePrioridad.Baja;
-                //}
-                Tarea.Estado = eEstado.Activo;
-                fakeService.AddTask(Tarea);
+                if (isEditar)
+                {
+                    fakeService.EditTaskAsync(Tarea);
+                }
+                else
+                {
+                    Tarea.Estado = eEstado.Activo;
+                    await fakeService.AddTask(Tarea);
+                }
+                siGuardo = true;
+                await Shell.Current.GoToAsync("..");
+
             }
-            Shell.Current.GoToAsync("..");
+            
         }
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
@@ -80,15 +90,19 @@ namespace TodoList.ViewModels
                 Tarea = value as Tarea;
                 TituloPage = "Editar tarea";
                 isEditar = true;
-                TipoTareaSeleccionada = Tarea.TipoTarea.ToString();
-                TipoPrioridadSeleccionada = Tarea.Prioridad.ToString();
+                ArchivoSeleccionado = Tarea.NombreArchivo;
                 if (Tarea.Estado == eEstado.Activo)
                 {
                     IsActivo = true;
                 }
+                if (Tarea.NombreArchivo != null || !string.Empty.Equals(Tarea.NombreArchivo))
+                {
+                    IsSelectOtherFile = false;
+                }
                 if (Tarea.Estado == eEstado.Completado || Tarea.Estado == eEstado.Cancelado)
                 {
                     IsConfigurable = false;
+                    IsSelectOtherFile = false;
                 }
             }
             if (query.TryGetValue("ENCUESTA", out value))
@@ -110,6 +124,39 @@ namespace TodoList.ViewModels
             await fakeService.EditTaskAsync(Tarea);
             _ = Shell.Current.GoToAsync("..");
         }
+
+        [RelayCommand]
+        private async void SeleccionarArchivo()
+        {
+            
+            var file = await FilePicker.PickAsync();
+            if (file != null)
+            {
+                // Subir el archivo a Firebase Storage
+                using (var stream = await file.OpenReadAsync())
+                {
+                    fileName = $"archivo_{DateTime.Now.Ticks}{Path.GetExtension(file.FileName)}";
+
+                    // Asignar la URL de descarga al campo URL de la tarea
+                    Tarea.URL = await storageService.UploadFile(stream, fileName);
+                    Tarea.NombreArchivo = fileName;
+                    ArchivoSeleccionado = fileName;
+                    IsSelectOtherFile = false;
+                }
+            }
+        }
+
+        public async Task EliminarArchivo()
+        {
+            // si no se dio a guardar cambios
+            if(!siGuardo)
+            {
+                // Llamar al método para eliminar el archivo
+                await storageService.DeleteFile(fileName);
+            }
+
+        }
+
 
     }
 }

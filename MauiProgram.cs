@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Maui;
 using Firebase.Auth;
 using Firebase.Auth.Providers;
+using Firebase.Storage;
 using Microsoft.Extensions.Logging;
 using TodoList.Pages;
 using TodoList.Services;
@@ -16,6 +17,7 @@ namespace TodoList
             // inyeccion de dependencias // IDataService, 
             #if DEBUG
             builder.Services.AddSingleton<IDataService>(new FirebaseDataService());
+            builder.Services.AddSingleton<IStorageService>(new FirebaseStorageService());
             #endif
             builder.Services.AddTransient<RegistroTareaPage>();
             builder.Services.AddTransient<RegistroTareaViewModel>();

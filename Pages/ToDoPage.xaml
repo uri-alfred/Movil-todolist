@@ -77,7 +77,15 @@
                             FontAttributes="Italic"
                             VerticalOptions="End"
                             TextDecorations="{Binding Source={x:Reference mCheck}, Path=IsChecked, Converter={StaticResource tareaCompletadaConverter}}"/>
-                    </VerticalStackLayout>
+                        <Label>
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="Prioridad: " TextDecorations="{Binding Source={x:Reference mCheck}, Path=IsChecked, Converter={StaticResource tareaCompletadaConverter}}" />
+                                    <Span Text="{Binding Prioridad}" TextDecorations="{Binding Source={x:Reference mCheck}, Path=IsChecked, Converter={StaticResource tareaCompletadaConverter}}" />
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+                        </VerticalStackLayout>
                         <Button 
                             Text="{x:Static helpers:MaterialIconHelper.Delete}" 
                             Grid.Column="2"

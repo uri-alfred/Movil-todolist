@@ -39,6 +39,7 @@ namespace TodoList.Services
                 Estado = item.Object.Estado,
                 Encuesta = item.Object.Encuesta,
                 URL = item.Object.URL,
+                NombreArchivo = item.Object.NombreArchivo,
             }).ToList();
         }
 

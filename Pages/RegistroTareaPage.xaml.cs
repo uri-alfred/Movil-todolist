@@ -9,4 +9,17 @@ public partial class RegistroTareaPage : ContentPage
 		InitializeComponent();
 		BindingContext = vm;
 	}
+
+    protected override async void OnDisappearing()
+    {
+        base.OnDisappearing();
+
+        // si sale de la pantalla
+        if (!string.IsNullOrEmpty(((RegistroTareaViewModel)BindingContext).fileName))
+        {
+            // Llamar al método para eliminar el archivo
+            await((RegistroTareaViewModel)BindingContext).EliminarArchivo();
+        }
+
+    }
 }
