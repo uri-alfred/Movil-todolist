@@ -10,13 +10,8 @@ namespace TodoList.Models.Encuestas
 {
     public class Encuesta
     {
-        [AutoIncrement, PrimaryKey]
-        public int Id { get; set; }
-        
-        [ManyToMany(typeof(Pregunta))]
         public List<Pregunta> Preguntas { get; set; }
         
-        [ManyToMany(typeof(Respuesta))]
         public Respuesta[] Respuestas { get; set; }
         public Encuesta()
         {

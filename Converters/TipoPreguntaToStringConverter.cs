@@ -4,20 +4,27 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TodoList.Models;
+using TodoList.Models.Encuestas;
 
 namespace TodoList.Converters
 {
-    class IsTareaTipoEncuesta : IValueConverter
+    class TipoPreguntaToStringConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return (int)eTipoTarea.Encuesta == (int)value;
+            if (value == null)
+                return string.Empty;
+
+            var enumValue = (eTipoPregunta)value;
+            return enumValue.ToString();
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return (bool)value ? 1 : 0;
+            if (value == null || !Enum.TryParse(value.ToString(), out eTipoPregunta result))
+                return eTipoPregunta.Abierta;
+
+            return result;
         }
     }
 }

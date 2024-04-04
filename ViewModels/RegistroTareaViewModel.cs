@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,8 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private string archivoSeleccionado;
 
+        public ObservableCollection<Pregunta> ListaPreguntas {  get; set; }
+
         private bool isEditar { get; set; } = false;
         public string fileName { get; set; }
         private bool siGuardo { get; set; }
@@ -48,6 +51,7 @@ namespace TodoList.ViewModels
         public RegistroTareaViewModel(IDataService service, IStorageService storageService)
         {
             tarea = new Tarea();
+            ListaPreguntas = new();
             fakeService = service;
             this.storageService = storageService;
             TituloPage = "Nueva Tarea";
@@ -59,7 +63,7 @@ namespace TodoList.ViewModels
         }
 
         [RelayCommand]
-        private async void Guardar()
+        private async Task Guardar()
         {
             if (Tarea.Titulo == null || Tarea.Descripcion == null ||
                 string.Empty.Equals(Tarea.Titulo) || string.Empty.Equals(Tarea.Descripcion))
@@ -69,7 +73,7 @@ namespace TodoList.ViewModels
             {
                 if (isEditar)
                 {
-                    fakeService.EditTaskAsync(Tarea);
+                    await fakeService.EditTaskAsync(Tarea);
                 }
                 else
                 {
@@ -107,14 +111,19 @@ namespace TodoList.ViewModels
             }
             if (query.TryGetValue("ENCUESTA", out value))
             {
-                Tarea.Encuesta = value as Encuesta;
+                Tarea.Encuesta = (Encuesta)value;
             }
+            ActualizarPreguntas();
         }
 
         [RelayCommand]
         public void AbrirRegistroEncuesta()
         {
-            Shell.Current.GoToAsync(nameof(RegistroEncuestaPage));
+            Dictionary<string, object> parametros = new()
+            {
+                ["ENCUESTA_EXIST"] = Tarea.Encuesta,
+            };
+            Shell.Current.GoToAsync(nameof(RegistroEncuestaPage), parametros);
         }
         
         [RelayCommand]
@@ -126,7 +135,7 @@ namespace TodoList.ViewModels
         }
 
         [RelayCommand]
-        private async void SeleccionarArchivo()
+        private async Task SeleccionarArchivo()
         {
             
             var file = await FilePicker.PickAsync();
@@ -157,6 +166,39 @@ namespace TodoList.ViewModels
 
         }
 
+        [RelayCommand]
+        public void EditarPregunta(Pregunta pregunta)
+        {
+            Dictionary<string, object> parametros = new()
+            {
+                ["ENCUESTA_EXIST"] = Tarea.Encuesta,
+                ["PREGUNTA"] = pregunta,
+            };
+            Shell.Current.GoToAsync(nameof(RegistroEncuestaPage), parametros);
+        }
+
+        [RelayCommand]
+        public void EliminarPregunta(Pregunta pregunta)
+        {
+            int index = Tarea.Encuesta.Preguntas.IndexOf(pregunta);
+            // Verificar que el índice esté dentro del rango válido
+            if (index >= 0 && index < Tarea.Encuesta.Preguntas.Count)
+            {
+                // Eliminar la pregunta en el índice especificado
+                Tarea.Encuesta.Preguntas.RemoveAt(index);
+                ActualizarPreguntas();
+            }
+        }
+
+        [RelayCommand]
+        public void ActualizarPreguntas()
+        {
+            ListaPreguntas.Clear();
+            foreach (var pregunta in Tarea.Encuesta.Preguntas)
+            {
+                ListaPreguntas.Add(pregunta);
+            }
+        }
 
     }
 }

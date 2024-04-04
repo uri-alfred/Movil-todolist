@@ -4,15 +4,15 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TodoList.Models;
+using TodoList.Models.Encuestas;
 
 namespace TodoList.Converters
 {
-    class IsTareaTipoEncuesta : IValueConverter
+    class IsPreguntaTipoOpciones : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            return (int)eTipoTarea.Encuesta == (int)value;
+            return (int)value is ((int)eTipoPregunta.OpcionMultiple) or ((int)eTipoPregunta.OpcionUnica);
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)

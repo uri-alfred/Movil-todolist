@@ -8,7 +8,7 @@ using TodoList.Models;
 
 namespace TodoList.Converters
 {
-    internal class PrioridadToStringConverter : IValueConverter
+    class PrioridadToStringConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {

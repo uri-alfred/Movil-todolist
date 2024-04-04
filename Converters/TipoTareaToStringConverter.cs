@@ -8,7 +8,7 @@ using TodoList.Models;
 
 namespace TodoList.Converters
 {
-    internal class TipoTareaToStringConverter : IValueConverter
+    class TipoTareaToStringConverter : IValueConverter
     {
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {

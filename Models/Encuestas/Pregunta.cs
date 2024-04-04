@@ -11,5 +11,8 @@ namespace TodoList.Models.Encuestas
         public int Id { get; set; }
         public string Descripcion { get; set; }
         public eTipoPregunta TipoPregunta { get; set; }
+
+        public List<string> Opciones { get; set;}
+        public bool IsResuelta { get; set; }
     }
 }

@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoList.Pages.RegistroTareaPage"
              xmlns:local="clr-namespace:TodoList.Converters"
+             xmlns:helpers="clr-namespace:TodoList.Helpers"
              Title="">
 
     <ContentPage.Resources>
@@ -99,17 +100,75 @@
                     />
             <Label Text="{Binding ArchivoSeleccionado}" IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoArchivo}}" Margin="10,0"  />
 
-            <Button
-                Text="Agregar encuesta"
-                IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
-                Command="{Binding AbrirRegistroEncuestaCommand}"
-                VerticalOptions="StartAndExpand"
-                HorizontalOptions="FillAndExpand"
-                Background="#4D335E88"
-                TextColor="#335E88"
+            <Grid 
                 Margin="10,20"
-                FontSize="18"
-                ></Button>
+                IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Preguntas de encuesta" 
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center" 
+                       Grid.Column="0"/>
+                <Button
+                    Grid.Column="1"
+                    Text="{x:Static helpers:MaterialIconHelper.PlusCircle}"
+                    FontFamily="MaterialDesignIcons" 
+                    Command="{Binding AbrirRegistroEncuestaCommand}"
+                    Background="Transparent"
+                    TextColor="#335E88"
+                    Margin="10,20"
+                    FontSize="40"
+                    ></Button>
+            </Grid>
+
+            <!-- Lista de preguntas -->
+            <CollectionView ItemsSource="{Binding ListaPreguntas}"
+                      x:Name="lPreguntas"
+                      IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
+                      Margin="10,0"
+                      >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid BackgroundColor="#4D335E88" HeightRequest="50" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding Descripcion}" 
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="Center" 
+                                   Grid.Column="0"/>
+                            <Button
+                                    Grid.Column="1"
+                                    Text="{x:Static helpers:MaterialIconHelper.Pen}"
+                                    FontFamily="MaterialDesignIcons" 
+                                    Command="{Binding Path=BindingContext.EditarPreguntaCommand, Source={Reference lPreguntas}}"
+                                    CommandParameter="{Binding .}"
+                                    Background="Transparent"
+                                    TextColor="#335E88"
+                                    FontSize="30"
+                                    ></Button>
+                            <Button
+                                    Grid.Column="2"
+                                    Text="{x:Static helpers:MaterialIconHelper.DeleteCircle}"
+                                    FontFamily="MaterialDesignIcons" 
+                                    Command="{Binding Path=BindingContext.EliminarPreguntaCommand, Source={Reference lPreguntas}}"
+                                    CommandParameter="{Binding .}"
+                                    Background="Transparent"
+                                    TextColor="Red"
+                                    FontSize="30"
+                                    ></Button>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
 
             <Button
                 Text="Guardar"

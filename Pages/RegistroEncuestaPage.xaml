@@ -2,20 +2,135 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="TodoList.Pages.RegistroEncuestaPage"
-             Title="RegistroEncuestaPage">
-    <VerticalStackLayout
+             xmlns:helpers="clr-namespace:TodoList.Helpers"
+             xmlns:local="clr-namespace:TodoList.Converters"
+             Title="">
+
+    <ContentPage.Resources>
+        <local:IsPreguntaTipoOpciones x:Key="IsPreguntaTipoOpciones" />
+        <local:TipoPreguntaToStringConverter x:Key="tipoPreguntaToStringConverter" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout
         Margin="20,0">
-        <Label 
-            Text="Listado de encuestas"
+            <Label 
+            Text="{Binding TituloPage}"
             VerticalOptions="Center" 
-            HorizontalOptions="Center" 
+            HorizontalOptions="Center"
             FontSize="24"
             TextColor="#335E88"
             Margin="0,20"/>
+            
+            <Entry
+            Placeholder="Descripción"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            FontSize="16"
+            Text="{Binding Pregunta.Descripcion}"
+            ></Entry>
+            
+            <Picker
+            x:Name="pikerTipo"
+            Title="Tipo de pregunta"
+            VerticalOptions="StartAndExpand"
+            HorizontalOptions="FillAndExpand"
+            Margin="10,0"
+            ItemsSource="{Binding Tipo}"
+            SelectedItem="{Binding Pregunta.TipoPregunta, Converter={StaticResource tipoPreguntaToStringConverter}}"
+            ></Picker>
 
-        <Button
-            Text="Registrar Encuesta"
-            Command="{Binding RegistraEncuestaCommand}"
+            <Grid 
+                Margin="10,0"
+                IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource IsPreguntaTipoOpciones}}"
+                >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+
+                <Label Text="Opciones" 
+                       VerticalOptions="Center" 
+                       HorizontalOptions="Center" 
+                       Grid.Column="0"/>
+                <Button
+                    Grid.Column="1"
+                    Text="{x:Static helpers:MaterialIconHelper.PlusCircle}"
+                    FontFamily="MaterialDesignIcons" 
+                    Command="{Binding OtraOpcionCommand}"
+                    Background="Transparent"
+                    TextColor="#335E88"
+                    Margin="10,20"
+                    FontSize="40"
+                    ></Button>
+            </Grid>
+            <StackLayout IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource IsPreguntaTipoOpciones}}">
+                <Grid 
+                    Margin="10,0"
+                    IsVisible="{Binding IsNuevaOpcion}"
+                    >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <Entry
+                        Grid.Column="0"
+                        Placeholder="Nueva opción"
+                        VerticalOptions="StartAndExpand"
+                        HorizontalOptions="FillAndExpand"
+                        Margin="10,0"
+                        FontSize="16"
+                        Text="{Binding NuevaOpcion}"
+                        ></Entry>
+                    <Button
+                        Grid.Column="1"
+                        Text="{x:Static helpers:MaterialIconHelper.PenPlus}"
+                        FontFamily="MaterialDesignIcons" 
+                        Command="{Binding AgregarOpcionCommand}"
+                        Background="Transparent"
+                        TextColor="#335E88"
+                        Margin="10,0"
+                        FontSize="30"
+                        ></Button>
+                </Grid>
+            </StackLayout>
+
+
+            <CollectionView ItemsSource="{Binding Opciones}" x:Name="cOpciones" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="10,0" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Text="{Binding}"
+                                   VerticalOptions="Center" 
+                                   HorizontalOptions="StartAndExpand" 
+                                   Grid.Column="0"/>
+                            <Button
+                                    Grid.Column="1"
+                                    Text="{x:Static helpers:MaterialIconHelper.CloseCircle}"
+                                    FontFamily="MaterialDesignIcons" 
+                                    Command="{Binding EliminarOpcionCommand}"
+                                    CommandParameter="{Binding .}"
+                                    Background="Transparent"
+                                    TextColor="Red"
+                                    FontSize="30"
+                                    ></Button>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+
+
+            <!--IsVisible="{Binding IsConfigurable}"-->
+            <Button
+            Text="Guardar"
+            Command="{Binding GuardarPreguntaCommand}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Background="#335E88"
@@ -24,5 +139,9 @@
             FontSize="18"
             ></Button>
 
-    </VerticalStackLayout>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+
 </ContentPage>
