@@ -21,5 +21,10 @@ namespace TodoList.Models
         public string URL { get; set; }
         public string NombreArchivo { get; set; }
 
+        public Tarea()
+        {
+            Encuesta = new Encuesta();
+        }
+
     }
 }

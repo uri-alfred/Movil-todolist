@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,7 +13,12 @@ namespace TodoList.Models.Encuestas
         public string Descripcion { get; set; }
         public eTipoPregunta TipoPregunta { get; set; }
 
-        public List<string> Opciones { get; set;}
+        public ObservableCollection<String> Opciones { get; set;}
         public bool IsResuelta { get; set; }
+
+        public Pregunta()
+        {
+            Opciones = new ObservableCollection<string>();
+        }
     }
 }

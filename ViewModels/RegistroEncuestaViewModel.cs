@@ -19,14 +19,13 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private string tituloPage;
 
-        private ObservableCollection<string> Opciones {  get; set; }
-
         [ObservableProperty]
         private string nuevaOpcion;
 
         [ObservableProperty]
         private bool isNuevaOpcion;
         private Encuesta EncuestaReg { get; set; }
+        private int indexPregunta {  get; set; }
 
         public string[] Tipo { get; set; } = (string[])Enum.GetNames(typeof(eTipoPregunta));
 
@@ -35,9 +34,9 @@ namespace TodoList.ViewModels
             EncuestaReg = new Encuesta();
             Pregunta = new Pregunta();
             TituloPage = "Nueva pregunta";
-            Opciones = new ();
             nuevaOpcion = string.Empty;
             IsNuevaOpcion = false;
+            indexPregunta = -1;
         }
 
         [RelayCommand]
@@ -49,8 +48,20 @@ namespace TodoList.ViewModels
             }
             else
             {
-                Pregunta.Opciones = new List<string>(Opciones);
-                EncuestaReg.Preguntas.Add(Pregunta);
+                if (!Pregunta.TipoPregunta.Equals(eTipoPregunta.OpcionMultiple) || !Pregunta.TipoPregunta.Equals(eTipoPregunta.OpcionUnica))
+                {
+                    Pregunta.Opciones = new();
+                }
+                // Valida si va a guardar o editar la pregunta
+                // -1 indica que es pregunta nueva
+                if (indexPregunta == -1)
+                {
+                    EncuestaReg.Preguntas.Add(Pregunta);
+                } 
+                else
+                {
+                    EncuestaReg.Preguntas[indexPregunta] = Pregunta;
+                }
                 Dictionary<string, object> parametros = new()
                 {
                     ["ENCUESTA"] = EncuestaReg,
@@ -76,15 +87,8 @@ namespace TodoList.ViewModels
                 if ((Pregunta)value != null)
                 {
                     Pregunta = (Pregunta)value;
+                    indexPregunta = EncuestaReg.Preguntas.IndexOf(Pregunta);
                     TituloPage = "Editar pregunta";
-                    if (Pregunta.Opciones.Count > 0)
-                    {
-                        Opciones.Clear();
-                        foreach (var option in Pregunta.Opciones)
-                        {
-                            Opciones.Add(option);
-                        }
-                    }
                 }
             }
         }
@@ -97,17 +101,23 @@ namespace TodoList.ViewModels
         }
         
         [RelayCommand]
-        private void AgregarOpcion()
+        private async Task AgregarOpcion()
         {
-            Opciones.Add(NuevaOpcion);
-            IsNuevaOpcion = false;
+            if (string.IsNullOrEmpty(NuevaOpcion))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "La descripción de opción no deben estar vacia.", "Ok");
+            } else
+            {
+                Pregunta.Opciones.Add(NuevaOpcion);
+                IsNuevaOpcion = false;
+            }
         }
 
         [RelayCommand]
-        private void EliminarOpcion(int index)
+        private void EliminarOpcion(string opcion)
         {
-            //Opciones.Remove(string);
-            Opciones.RemoveAt(index);
+            Pregunta.Opciones.Remove(opcion);
         }
+
     }
 }

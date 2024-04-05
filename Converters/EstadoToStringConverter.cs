@@ -20,7 +20,10 @@ namespace TodoList.Converters
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+            if (value == null || !Enum.TryParse(value.ToString(), out eEstado result))
+                return eEstado.Inicial;
+
+            return result;
         }
     }
 }

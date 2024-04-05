@@ -34,8 +34,6 @@ namespace TodoList.ViewModels
         [ObservableProperty]
         private string archivoSeleccionado;
 
-        public ObservableCollection<Pregunta> ListaPreguntas {  get; set; }
-
         private bool isEditar { get; set; } = false;
         public string fileName { get; set; }
         private bool siGuardo { get; set; }
@@ -51,7 +49,6 @@ namespace TodoList.ViewModels
         public RegistroTareaViewModel(IDataService service, IStorageService storageService)
         {
             tarea = new Tarea();
-            ListaPreguntas = new();
             fakeService = service;
             this.storageService = storageService;
             TituloPage = "Nueva Tarea";
@@ -71,6 +68,25 @@ namespace TodoList.ViewModels
                 await Application.Current.MainPage.DisplayAlert("Error", "El titulo y la descripción de tarea no deben estar vacios.", "Ok");
             } else
             {
+                // valida los casos de los tipos de tarea
+                switch (Tarea.TipoTarea)
+                {
+                    case eTipoTarea.Normal:
+                        await BorraTipoArchivo();
+                        Tarea.Encuesta = new Encuesta();
+                        break;
+                    case eTipoTarea.Encuesta:
+                        await BorraTipoArchivo();
+                        break;
+                    case eTipoTarea.Archivo:
+                        Tarea.Encuesta = new Encuesta();
+                        break;
+                    default:
+                        // caso default
+                        break;
+                }
+
+                // valida si esta editando o agregando uno nuevo
                 if (isEditar)
                 {
                     await fakeService.EditTaskAsync(Tarea);
@@ -86,6 +102,17 @@ namespace TodoList.ViewModels
             }
             
         }
+
+        private async Task BorraTipoArchivo()
+        {
+            if (!string.IsNullOrEmpty(Tarea.NombreArchivo))
+            {
+                await storageService.DeleteFile(Tarea.NombreArchivo);
+            }
+            Tarea.URL = string.Empty;
+            Tarea.NombreArchivo = string.Empty;
+        }
+
         public void ApplyQueryAttributes(IDictionary<string, object> query)
         {
             object value = null;
@@ -113,7 +140,6 @@ namespace TodoList.ViewModels
             {
                 Tarea.Encuesta = (Encuesta)value;
             }
-            ActualizarPreguntas();
         }
 
         [RelayCommand]
@@ -186,17 +212,6 @@ namespace TodoList.ViewModels
             {
                 // Eliminar la pregunta en el índice especificado
                 Tarea.Encuesta.Preguntas.RemoveAt(index);
-                ActualizarPreguntas();
-            }
-        }
-
-        [RelayCommand]
-        public void ActualizarPreguntas()
-        {
-            ListaPreguntas.Clear();
-            foreach (var pregunta in Tarea.Encuesta.Preguntas)
-            {
-                ListaPreguntas.Add(pregunta);
             }
         }
 

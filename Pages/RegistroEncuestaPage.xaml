@@ -98,10 +98,15 @@
             </StackLayout>
 
 
-            <CollectionView ItemsSource="{Binding Opciones}" x:Name="cOpciones" >
+            <CollectionView ItemsSource="{Binding Pregunta.Opciones}" x:Name="cOpciones"
+                            IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource IsPreguntaTipoOpciones}}"
+                            >
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <Grid Margin="10,0" >
+                        <Grid BackgroundColor="#4D335E88" Margin="10,10" >
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
                                 <ColumnDefinition Width="Auto" />
@@ -110,12 +115,16 @@
                             <Label Text="{Binding}"
                                    VerticalOptions="Center" 
                                    HorizontalOptions="StartAndExpand" 
-                                   Grid.Column="0"/>
+                                   VerticalTextAlignment="Center"
+                                   Padding="10"
+                                   Grid.Column="0"
+                                   Grid.Row="0"/>
                             <Button
                                     Grid.Column="1"
+                                    Grid.Row="0"
                                     Text="{x:Static helpers:MaterialIconHelper.CloseCircle}"
                                     FontFamily="MaterialDesignIcons" 
-                                    Command="{Binding EliminarOpcionCommand}"
+                                    Command="{Binding Path=BindingContext.EliminarOpcionCommand, Source={Reference cOpciones}}"
                                     CommandParameter="{Binding .}"
                                     Background="Transparent"
                                     TextColor="Red"
