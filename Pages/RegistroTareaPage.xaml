@@ -54,6 +54,7 @@
                 Date="{Binding Tarea.FechaInicial}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
+                Format="dd/MM/yyyy"
                 Margin="10,0"
                 FontSize="16"
                 ></DatePicker>
@@ -62,6 +63,7 @@
                 Date="{Binding Tarea.FechaFinal}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
+                Format="dd/MM/yyyy"
                 Margin="10,0"
                 FontSize="16"
                 ></DatePicker>
@@ -112,9 +114,11 @@
                 <Label Text="Preguntas de encuesta" 
                        VerticalOptions="Center" 
                        HorizontalOptions="Center" 
+                       FontSize="16"
                        Grid.Column="0"/>
                 <Button
                     Grid.Column="1"
+                    IsVisible="{Binding IsConfigurable}"
                     Text="{x:Static helpers:MaterialIconHelper.PlusCircle}"
                     FontFamily="MaterialDesignIcons" 
                     Command="{Binding AbrirRegistroEncuestaCommand}"
@@ -126,56 +130,100 @@
             </Grid>
 
             <!-- Lista de preguntas -->
-            <CollectionView ItemsSource="{Binding Tarea.Encuesta.Preguntas}"
-                      x:Name="lPreguntas"
-                      IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
-                      Margin="10,0"
-                      >
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid BackgroundColor="#4D335E88" Margin="0,10">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto" />
-                            </Grid.RowDefinitions>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
+            
+            <!--Preguntas editables-->
+            <StackLayout IsVisible="{Binding IsConfigurable}">
+                <CollectionView ItemsSource="{Binding Tarea.Encuesta.Preguntas}"
+                          x:Name="lPreguntas"
+                          IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
+                          Margin="10,0"
+                          >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="#4D335E88" Margin="0,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
 
-                            <Label Text="{Binding Descripcion}" 
-                                   VerticalOptions="Center" 
-                                   HorizontalOptions="StartAndExpand" 
-                                   Padding="10"
-                                   Grid.Column="0"
-                                   Grid.Row="0"
-                                   VerticalTextAlignment="Center"/>
-                            <Button
-                                    Grid.Column="1"
-                                    Grid.Row="0"
-                                    Text="{x:Static helpers:MaterialIconHelper.Pen}"
-                                    FontFamily="MaterialDesignIcons" 
-                                    Command="{Binding Path=BindingContext.EditarPreguntaCommand, Source={Reference lPreguntas}}"
-                                    CommandParameter="{Binding .}"
-                                    Background="Transparent"
-                                    TextColor="#335E88"
-                                    FontSize="30"
-                                    ></Button>
-                            <Button
-                                    Grid.Column="2"
-                                    Grid.Row="0"
-                                    Text="{x:Static helpers:MaterialIconHelper.DeleteCircle}"
-                                    FontFamily="MaterialDesignIcons" 
-                                    Command="{Binding Path=BindingContext.EliminarPreguntaCommand, Source={Reference lPreguntas}}"
-                                    CommandParameter="{Binding .}"
-                                    Background="Transparent"
-                                    TextColor="Red"
-                                    FontSize="30"
-                                    ></Button>
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
+                                <Label Text="{Binding Descripcion}" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="StartAndExpand" 
+                                       Padding="10"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       VerticalTextAlignment="Center"/>
+                                <Button
+                                        Grid.Column="1"
+                                        Grid.Row="0"
+                                        Text="{x:Static helpers:MaterialIconHelper.Pen}"
+                                        FontFamily="MaterialDesignIcons" 
+                                        Command="{Binding Path=BindingContext.EditarPreguntaCommand, Source={Reference lPreguntas}}"
+                                        CommandParameter="{Binding .}"
+                                        Background="Transparent"
+                                        TextColor="#335E88"
+                                        FontSize="30"
+                                        ></Button>
+                                <Button
+                                        Grid.Column="2"
+                                        Grid.Row="0"
+                                        Text="{x:Static helpers:MaterialIconHelper.DeleteCircle}"
+                                        FontFamily="MaterialDesignIcons" 
+                                        Command="{Binding Path=BindingContext.EliminarPreguntaCommand, Source={Reference lPreguntas}}"
+                                        CommandParameter="{Binding .}"
+                                        Background="Transparent"
+                                        TextColor="Red"
+                                        FontSize="30"
+                                        ></Button>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
+
+            <StackLayout IsVisible="{Binding IsComplete}">
+                <CollectionView ItemsSource="{Binding Tarea.Encuesta.Preguntas}"
+                              x:Name="lPreguntasResp"
+                              IsVisible="{Binding Source={x:Reference pikerTipo}, Path=SelectedIndex, Converter={StaticResource isTareaTipoEncuesta}}"
+                              Margin="10,0"
+                              >
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid BackgroundColor="#4D335E88" Margin="0,10">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto" />
+                                    <RowDefinition Height="Auto" />
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Text="{Binding Descripcion}" 
+                                       VerticalOptions="Center" 
+                                       HorizontalOptions="StartAndExpand" 
+                                       Padding="10"
+                                       Grid.Column="0"
+                                       Grid.Row="0"
+                                       VerticalTextAlignment="Center"/>
+                                <CollectionView ItemsSource="{Binding Respuestas}"  Grid.Row="1" Grid.Column="0" Margin="10,0">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Text="{Binding .}" 
+                                                   VerticalOptions="Center" 
+                                                   HorizontalOptions="StartAndExpand" 
+                                                   VerticalTextAlignment="Center"/>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </Grid>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </StackLayout>
 
 
             <Button
@@ -191,7 +239,7 @@
                 ></Button>
             
             <Button
-                Text="Cancelar"
+                Text="Cancelar tarea"
                 IsVisible="{Binding IsActivo}"
                 Command="{Binding CancelarCommand}"
                 VerticalOptions="StartAndExpand"
@@ -200,7 +248,7 @@
                 TextColor="red"
                 BorderColor="red"
                 BorderWidth="3"
-                Margin="10,30" 
+                Margin="10,40" 
                 FontSize="18" 
                 ></Button>
             

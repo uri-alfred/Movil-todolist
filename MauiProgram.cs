@@ -15,10 +15,9 @@ namespace TodoList
         {
             var builder = MauiApp.CreateBuilder();
             // inyeccion de dependencias // IDataService, 
-            #if DEBUG
             builder.Services.AddSingleton<IDataService>(new FirebaseDataService());
             builder.Services.AddSingleton<IStorageService>(new FirebaseStorageService());
-            #endif
+            
             builder.Services.AddTransient<RegistroTareaPage>();
             builder.Services.AddTransient<RegistroTareaViewModel>();
             builder.Services.AddTransient<ToDoPage>();
@@ -26,6 +25,9 @@ namespace TodoList
 
             builder.Services.AddTransient<RegistroEncuestaPage>();
             builder.Services.AddTransient<RegistroEncuestaViewModel>();
+
+            builder.Services.AddTransient<FormEncuestaPage>();
+            builder.Services.AddTransient<FormEncuestaViewModel>();
 
             builder.Services.AddTransient<LoginPage>();
             builder.Services.AddTransient<LoginViewModel>();
@@ -35,8 +37,6 @@ namespace TodoList
 
             builder
                 .UseMauiApp<App>()
-                #if WINDOWS
-                #endif
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {

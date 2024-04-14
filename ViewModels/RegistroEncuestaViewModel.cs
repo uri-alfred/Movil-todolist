@@ -48,7 +48,7 @@ namespace TodoList.ViewModels
             }
             else
             {
-                if (!Pregunta.TipoPregunta.Equals(eTipoPregunta.OpcionMultiple) || !Pregunta.TipoPregunta.Equals(eTipoPregunta.OpcionUnica))
+                if (!Pregunta.TipoPregunta.Equals(eTipoPregunta.OpcionMultiple) && !Pregunta.TipoPregunta.Equals(eTipoPregunta.OpcionUnica))
                 {
                     Pregunta.Opciones = new();
                 }

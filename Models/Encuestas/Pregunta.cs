@@ -16,9 +16,12 @@ namespace TodoList.Models.Encuestas
         public ObservableCollection<String> Opciones { get; set;}
         public bool IsResuelta { get; set; }
 
+        public ObservableCollection<string> Respuestas { get; set; }
+
         public Pregunta()
         {
             Opciones = new ObservableCollection<string>();
+            Respuestas = new ObservableCollection<string>();
         }
     }
 }

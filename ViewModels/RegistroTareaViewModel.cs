@@ -29,6 +29,9 @@ namespace TodoList.ViewModels
         private bool isConfigurable;
 
         [ObservableProperty]
+        private bool isComplete;
+
+        [ObservableProperty]
         private bool isSelectOtherFile;
 
         [ObservableProperty]
@@ -38,7 +41,7 @@ namespace TodoList.ViewModels
         public string fileName { get; set; }
         private bool siGuardo { get; set; }
 
-        private IDataService fakeService;
+        private IDataService firebaseService;
         private IStorageService storageService;
 
                                                     //puede definirse a este nivel o en el constructor
@@ -49,11 +52,12 @@ namespace TodoList.ViewModels
         public RegistroTareaViewModel(IDataService service, IStorageService storageService)
         {
             tarea = new Tarea();
-            fakeService = service;
+            firebaseService = service;
             this.storageService = storageService;
             TituloPage = "Nueva Tarea";
             isActivo = false;
             isConfigurable = true;
+            isComplete = false;
             siGuardo = false;
             isSelectOtherFile = true;
             archivoSeleccionado = string.Empty;
@@ -77,6 +81,13 @@ namespace TodoList.ViewModels
                         break;
                     case eTipoTarea.Encuesta:
                         await BorraTipoArchivo();
+                        // si es una tarea tipo encuesta pero no tiene perguntas
+                        if (Tarea.Encuesta.Preguntas.Count == 0)
+                        {
+                            // cambia el tipo a normal por no tener preguntas
+                            Tarea.TipoTarea = eTipoTarea.Normal;
+                            break;
+                        }
                         break;
                     case eTipoTarea.Archivo:
                         Tarea.Encuesta = new Encuesta();
@@ -89,12 +100,12 @@ namespace TodoList.ViewModels
                 // valida si esta editando o agregando uno nuevo
                 if (isEditar)
                 {
-                    await fakeService.EditTaskAsync(Tarea);
+                    await firebaseService.EditTaskAsync(Tarea);
                 }
                 else
                 {
                     Tarea.Estado = eEstado.Activo;
-                    await fakeService.AddTask(Tarea);
+                    await firebaseService.AddTask(Tarea);
                 }
                 siGuardo = true;
                 await Shell.Current.GoToAsync("..");
@@ -134,6 +145,7 @@ namespace TodoList.ViewModels
                 {
                     IsConfigurable = false;
                     IsSelectOtherFile = false;
+                    IsComplete = true;
                 }
             }
             if (query.TryGetValue("ENCUESTA", out value))
@@ -156,7 +168,7 @@ namespace TodoList.ViewModels
         public async Task Cancelar()
         {
             Tarea.Estado = eEstado.Cancelado;
-            await fakeService.EditTaskAsync(Tarea);
+            await firebaseService.EditTaskAsync(Tarea);
             _ = Shell.Current.GoToAsync("..");
         }
 

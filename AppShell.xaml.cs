@@ -12,6 +12,7 @@ namespace TodoList
             Routing.RegisterRoute(nameof(RegistroPage), typeof(RegistroPage));
             Routing.RegisterRoute(nameof(RegistroTareaPage), typeof(RegistroTareaPage));
             Routing.RegisterRoute(nameof(RegistroEncuestaPage), typeof(RegistroEncuestaPage));
+            Routing.RegisterRoute(nameof(FormEncuestaPage), typeof(FormEncuestaPage));
         }
     }
 }

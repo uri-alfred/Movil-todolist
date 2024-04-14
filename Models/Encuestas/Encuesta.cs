@@ -12,12 +12,10 @@ namespace TodoList.Models.Encuestas
     public class Encuesta
     {
         public ObservableCollection<Pregunta> Preguntas { get; set; }
-        
-        public Respuesta[] Respuestas { get; set; }
+
         public Encuesta()
         {
             Preguntas = new ObservableCollection<Pregunta>();
-            Respuestas = [];
         }
     }
 }

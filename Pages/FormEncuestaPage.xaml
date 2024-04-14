@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="TodoList.Pages.FormEncuestaPage"
+             xmlns:local="clr-namespace:TodoList.Converters"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Title="">
+
+    <ContentPage.Resources>
+        <local:IsOpcionCheck x:Key="isOpcionCheck" />
+        <local:IsPregTipoAbierta x:Key="isPregTipoAbierta" />
+        <local:IsPregTipoNumerica x:Key="isPregTipoNumerica" />
+        <local:IsPregTipoSiNo x:Key="isPregTipoSiNo" />
+        <local:IsPregTipoOptMulti x:Key="isPregTipoOptMulti" />
+        <local:IsPregTipoOptUnic x:Key="isPregTipoOptUnic" />
+        <local:IsPregTipoFecha x:Key="isPregTipoFecha" />
+    </ContentPage.Resources>
+
+    <ScrollView>
+        <VerticalStackLayout Margin="20,0">
+            <Label Text="Encuesta"
+                   VerticalOptions="Center" 
+                   HorizontalOptions="Center"
+                   FontSize="24"
+                   TextColor="#335E88"
+                   Margin="0,20"/>
+
+            <Label Text="{Binding CurrentQuestion.Descripcion}" 
+                   FontSize="Title"
+                   Margin="20"/>
+            
+            <!--Seccion de respuestas por tipo de pregunta-->
+            <!--Abierta-->
+            <Entry Text="{Binding Respuesta}" 
+                   IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoAbierta}}"
+                   Placeholder="Respuesta" 
+                   Margin="0,20"
+                   VerticalOptions="StartAndExpand"
+                   HorizontalOptions="FillAndExpand"
+                   FontSize="16"/>
+            <!--Numerica-->
+            <Entry Keyboard="Numeric"
+                   Text="{Binding NumericResp}"
+                   IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoNumerica}}"
+                   Placeholder="Respuesta" 
+                   VerticalOptions="StartAndExpand"
+                   HorizontalOptions="FillAndExpand"
+                   FontSize="16"/>
+            <!--SiNO-->
+            <Picker
+                Title="Selecciona tu respuesta"
+                IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoSiNo}}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                ItemsSource="{Binding OptSiNO}"
+                SelectedItem="{Binding Respuesta}"
+                />
+            <!--Opción multiple-->
+            <CollectionView
+                x:Name="mCollectionOpt"
+                IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoOptMulti}}"
+                ItemsSource="{Binding CurrentQuestion.Opciones}"
+             >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox
+                             x:Name="mCheck"
+                             Grid.Column="0"
+                             Grid.Row="0"
+                             IsChecked="{Binding ., Converter={StaticResource isOpcionCheck}, ConverterParameter={Binding CurrentQuestion.Opciones}}"
+                             >
+                                <CheckBox.Behaviors>
+                                    <toolkit:EventToCommandBehavior
+                                            EventName="CheckedChanged"
+                                            Command="{Binding Path=BindingContext.CkeckOptionCommand, Source={Reference mCollectionOpt}}"
+                                            CommandParameter="{Binding .}">
+                                    </toolkit:EventToCommandBehavior>
+                                </CheckBox.Behaviors>
+                            </CheckBox>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Grid.ColumnSpan="4"
+                                Grid.Row="0"
+                                Padding="10"
+                                >
+                                <Label Text="{Binding .}"
+                                    />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--Opción unica-->
+            <CollectionView ItemsSource="{Binding CurrentQuestion.Opciones}"
+                            x:Name="lCollOptions"
+                            IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoOptUnic}}" >
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Margin="0,10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <RadioButton Grid.Column="0" Grid.Row="0" GroupName="Opciones" IsChecked="{Binding ., Converter={StaticResource isOpcionCheck}, ConverterParameter={Binding CurrentQuestion.Opciones}}">
+                                <RadioButton.Behaviors>
+                                    <toolkit:EventToCommandBehavior
+                                            EventName="CheckedChanged"
+                                            Command="{Binding Path=BindingContext.SeleccionadaCommand, Source={Reference lCollOptions}}"
+                                            CommandParameter="{Binding .}" />
+                                </RadioButton.Behaviors>
+                            </RadioButton>
+
+                            <VerticalStackLayout
+                                Grid.Column="1"
+                                Grid.ColumnSpan="4"
+                                Grid.Row="0"
+                                Padding="10"
+                            >
+                                <Label Text="{Binding .}" />
+                            </VerticalStackLayout>
+                        </Grid>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+            <!--Fecha-->
+            <DatePicker
+                Date="{Binding FechaResp}"
+                IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoFecha}}"
+                Margin="0,10"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Format="dd/MM/yyyy"
+                FontSize="16"
+                />
+
+
+            <Button
+                Text="Siguiente"
+                IsVisible="{Binding IsNext}"
+                Command="{Binding NextCommand}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Background="White"
+                TextColor="#335E88"
+                BorderColor="#335E88"
+                BorderWidth="3"
+                Margin="10,20"
+                FontSize="18"
+                ></Button>
+
+            <Button
+                Text="Guardar"
+                IsVisible="{Binding IsUltimaPregunta}"
+                Command="{Binding GuardarRespuestasCommand}"
+                VerticalOptions="StartAndExpand"
+                HorizontalOptions="FillAndExpand"
+                Background="#335E88"
+                TextColor="White"
+                Margin="10,20"
+                FontSize="18"
+                ></Button>
+
+
+        </VerticalStackLayout>
+    </ScrollView>
+    
+</ContentPage>

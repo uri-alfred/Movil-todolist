@@ -105,10 +105,30 @@ namespace TodoList.ViewModels
             {
                 return;
             }
-            await fakeService.EditTaskAsync(tarea);
+            
             if (tarea.TipoTarea == eTipoTarea.Encuesta)
             {
-                _ = Shell.Current.GoToAsync(nameof(RegistroTareaPage));
+                bool respondida = false;
+                foreach (var preg in tarea.Encuesta.Preguntas)
+                {
+                    if (preg.Respuestas.Count > 0)
+                    {
+                        respondida = true;
+                        break;
+                    }
+                }
+                if (!respondida)
+                {
+                    ShellNavigationQueryParameters parametros = new()
+                    {
+                        { "TAREA_COMPLETE", tarea }
+                    };
+
+                    _ = Shell.Current.GoToAsync(nameof(FormEncuestaPage), parametros);
+                }
+            } else
+            {
+                await fakeService.EditTaskAsync(tarea);
             }
         }
     }

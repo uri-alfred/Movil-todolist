@@ -35,7 +35,7 @@ namespace TodoList.ViewModels
                 {
                     var user = await _client.SignInWithEmailAndPasswordAsync(Lgin.email.Value, Lgin.password.Value);
                     Lgin = new Login();
-                    Shell.Current.GoToAsync(nameof(ToDoPage));
+                    _ = Shell.Current.GoToAsync(nameof(ToDoPage));
                 }
             }
             catch (Exception ex)
