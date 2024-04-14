@@ -2,8 +2,11 @@
 using Firebase.Auth;
 using Firebase.Auth.Providers;
 using Firebase.Storage;
+using LocalizationResourceManager.Maui;
 using Microsoft.Extensions.Logging;
 using TodoList.Pages;
+using TodoList.Resources;
+using TodoList.Resources.Location;
 using TodoList.Services;
 using TodoList.ViewModels;
 
@@ -37,6 +40,11 @@ namespace TodoList
 
             builder
                 .UseMauiApp<App>()
+                .UseLocalizationResourceManager(settings =>
+                {
+                    settings.RestoreLatestCulture(true);
+                    settings.AddResource(AppResources.ResourceManager);
+                })
                 .UseMauiCommunityToolkit()
                 .ConfigureFonts(fonts =>
                 {
