@@ -135,6 +135,9 @@
   <data name="Priority" xml:space="preserve">
     <value>Prioridad</value>
   </data>
+  <data name="Priority2" xml:space="preserve">
+    <value>Prioridad: </value>
+  </data>
   <data name="QuestionType" xml:space="preserve">
     <value>Tipo de pregunta</value>
   </data>
@@ -149,6 +152,9 @@
   </data>
   <data name="TaskType" xml:space="preserve">
     <value>Tipo de tarea</value>
+  </data>
+  <data name="TextCheckIn" xml:space="preserve">
+    <value>Registrarse</value>
   </data>
   <data name="TextEmail" xml:space="preserve">
     <value>Correo electronico</value>
@@ -174,10 +180,22 @@
   <data name="TextSave" xml:space="preserve">
     <value>Guardar</value>
   </data>
+  <data name="TitleEditQuest" xml:space="preserve">
+    <value>Editar pregunta</value>
+  </data>
+  <data name="TitleEditTask" xml:space="preserve">
+    <value>Editar tarea</value>
+  </data>
   <data name="TitleLogin" xml:space="preserve">
     <value>Inicio de sesión</value>
   </data>
   <data name="TitleRegistro" xml:space="preserve">
     <value>Registro</value>
+  </data>
+  <data name="TitleRegQuest" xml:space="preserve">
+    <value>Nueva pregunta</value>
+  </data>
+  <data name="TitleRegTask" xml:space="preserve">
+    <value>Nueva tarea</value>
   </data>
 </root>

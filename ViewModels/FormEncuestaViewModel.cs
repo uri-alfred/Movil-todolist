@@ -140,6 +140,9 @@ namespace TodoList.ViewModels
                     CurrentQuestion.Respuestas.Add(Respuesta);
                     break;
             }
+            Respuesta = "";
+            FechaResp = DateTime.Now;
+            OptMultiResp = new();
         }
 
         private string Validate()

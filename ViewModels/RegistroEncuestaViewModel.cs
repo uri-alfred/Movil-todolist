@@ -6,12 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LocalizationResourceManager.Maui;
 using TodoList.Models.Encuestas;
 
 namespace TodoList.ViewModels
 {
     public partial class RegistroEncuestaViewModel : ObservableObject, IQueryAttributable
     {
+        ILocalizationResourceManager _localizationResourceManager;
+        LocalizedString _titulo;
 
         [ObservableProperty]
         private Pregunta pregunta;
@@ -29,11 +32,13 @@ namespace TodoList.ViewModels
 
         public string[] Tipo { get; set; } = (string[])Enum.GetNames(typeof(eTipoPregunta));
 
-        public RegistroEncuestaViewModel()
+        public RegistroEncuestaViewModel(ILocalizationResourceManager localizationResourceManager)
         {
+            _localizationResourceManager = localizationResourceManager;
+            _titulo = new(() => _localizationResourceManager["TitleRegQuest"]);
+            TituloPage = _titulo.Localized;
             EncuestaReg = new Encuesta();
             Pregunta = new Pregunta();
-            TituloPage = "Nueva pregunta";
             nuevaOpcion = string.Empty;
             IsNuevaOpcion = false;
             indexPregunta = -1;
@@ -88,7 +93,8 @@ namespace TodoList.ViewModels
                 {
                     Pregunta = (Pregunta)value;
                     indexPregunta = EncuestaReg.Preguntas.IndexOf(Pregunta);
-                    TituloPage = "Editar pregunta";
+                    _titulo = new(() => _localizationResourceManager["TitleEditQuest"]);
+                    TituloPage = _titulo.Localized;
                 }
             }
         }

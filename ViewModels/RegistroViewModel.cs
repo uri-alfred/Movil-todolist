@@ -39,7 +39,7 @@ namespace TodoList.ViewModels
                     await _client.User.ChangeDisplayNameAsync(Reg.Username.Value);
                     await Application.Current.MainPage.DisplayAlert("Exitoso", "Usuario registrado correctamente", "Ok");
                     Reg = new Registro();
-                    _ = Shell.Current.GoToAsync(nameof(ToDoPage));
+                    await App.Current.MainPage.Navigation.PopAsync();
                 }
             }
             catch (Exception ex)

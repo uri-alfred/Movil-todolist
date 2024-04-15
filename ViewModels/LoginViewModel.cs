@@ -7,6 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Firebase.Auth;
 using LocalizationResourceManager.Maui;
+using Newtonsoft.Json;
 using Plugin.ValidationRules;
 using TodoList.Models;
 using TodoList.Pages;
@@ -37,6 +38,7 @@ namespace TodoList.ViewModels
                 if (unit.Validate())
                 {
                     var user = await _client.SignInWithEmailAndPasswordAsync(Lgin.email.Value, Lgin.password.Value);
+                    Preferences.Set("AuthToken", JsonConvert.SerializeObject(user.User));
                     Lgin = new Login();
                     _ = Shell.Current.GoToAsync(nameof(ToDoPage));
                 }

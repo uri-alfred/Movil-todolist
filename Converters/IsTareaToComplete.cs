@@ -12,7 +12,12 @@ namespace TodoList.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return eEstado.Cancelado != (eEstado)value;
+            if (eEstado.Cancelado == (eEstado)value)
+                return false;
+            else if (eEstado.Completado == (eEstado)value)
+                return false;
+
+            return true;
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

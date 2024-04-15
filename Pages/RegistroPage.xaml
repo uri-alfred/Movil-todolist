@@ -53,7 +53,7 @@
         <Label Text="{Binding Reg.RepeatPassword.Error}" TextColor="Red" Margin="10,0" />
 
         <Button
-            Text="Registrar"
+            Text="{loc:Translate TextCheckIn}"
             Command="{Binding RegistroCommand}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"

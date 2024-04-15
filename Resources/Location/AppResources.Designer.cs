@@ -115,6 +115,15 @@ namespace TodoList.Resources.Location {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Priority: .
+        /// </summary>
+        internal static string Priority2 {
+            get {
+                return ResourceManager.GetString("Priority2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Question type.
         /// </summary>
         internal static string QuestionType {
@@ -156,6 +165,15 @@ namespace TodoList.Resources.Location {
         internal static string TaskType {
             get {
                 return ResourceManager.GetString("TaskType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Check in.
+        /// </summary>
+        internal static string TextCheckIn {
+            get {
+                return ResourceManager.GetString("TextCheckIn", resourceCulture);
             }
         }
         
@@ -232,6 +250,24 @@ namespace TodoList.Resources.Location {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Edit Question.
+        /// </summary>
+        internal static string TitleEditQuest {
+            get {
+                return ResourceManager.GetString("TitleEditQuest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Edit Task.
+        /// </summary>
+        internal static string TitleEditTask {
+            get {
+                return ResourceManager.GetString("TitleEditTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Singin.
         /// </summary>
         internal static string TitleLogin {
@@ -246,6 +282,24 @@ namespace TodoList.Resources.Location {
         internal static string TitleRegistro {
             get {
                 return ResourceManager.GetString("TitleRegistro", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New Question.
+        /// </summary>
+        internal static string TitleRegQuest {
+            get {
+                return ResourceManager.GetString("TitleRegQuest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a New Task.
+        /// </summary>
+        internal static string TitleRegTask {
+            get {
+                return ResourceManager.GetString("TitleRegTask", resourceCulture);
             }
         }
     }
