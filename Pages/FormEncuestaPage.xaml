@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="TodoList.Pages.FormEncuestaPage"
              xmlns:local="clr-namespace:TodoList.Converters"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
@@ -33,7 +34,7 @@
             <!--Abierta-->
             <Entry Text="{Binding Respuesta}" 
                    IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoAbierta}}"
-                   Placeholder="Respuesta" 
+                   Placeholder="{loc:Translate PlacerholderAnswer}" 
                    Margin="0,20"
                    VerticalOptions="StartAndExpand"
                    HorizontalOptions="FillAndExpand"
@@ -42,13 +43,13 @@
             <Entry Keyboard="Numeric"
                    Text="{Binding NumericResp}"
                    IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoNumerica}}"
-                   Placeholder="Respuesta" 
+                   Placeholder="{loc:Translate PlacerholderAnswer}" 
                    VerticalOptions="StartAndExpand"
                    HorizontalOptions="FillAndExpand"
                    FontSize="16"/>
             <!--SiNO-->
             <Picker
-                Title="Selecciona tu respuesta"
+                Title="{loc:Translate SelectedAnswer}"
                 IsVisible="{Binding CurrentQuestion.TipoPregunta, Converter={StaticResource isPregTipoSiNo}}"
                 VerticalOptions="StartAndExpand"
                 HorizontalOptions="FillAndExpand"
@@ -163,7 +164,7 @@
                 ></Button>
 
             <Button
-                Text="Guardar"
+                Text="{loc:Translate TextSave}"
                 IsVisible="{Binding IsUltimaPregunta}"
                 Command="{Binding GuardarRespuestasCommand}"
                 VerticalOptions="StartAndExpand"

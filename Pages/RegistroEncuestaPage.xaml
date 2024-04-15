@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:loc="clr-namespace:LocalizationResourceManager.Maui;assembly=LocalizationResourceManager.Maui"
              x:Class="TodoList.Pages.RegistroEncuestaPage"
              xmlns:helpers="clr-namespace:TodoList.Helpers"
              xmlns:local="clr-namespace:TodoList.Converters"
@@ -23,7 +24,7 @@
             Margin="0,20"/>
             
             <Entry
-            Placeholder="Descripción"
+            Placeholder="{loc:Translate PlaceholderDescrip}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
@@ -33,7 +34,7 @@
             
             <Picker
             x:Name="pikerTipo"
-            Title="Tipo de pregunta"
+            Title="{loc:Translate QuestionType}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
@@ -50,7 +51,7 @@
                     <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
-                <Label Text="Opciones" 
+                <Label Text="{loc:Translate TextOptions}" 
                        VerticalOptions="Center" 
                        HorizontalOptions="Center" 
                        Grid.Column="0"/>
@@ -138,7 +139,7 @@
 
             <!--IsVisible="{Binding IsConfigurable}"-->
             <Button
-            Text="Guardar"
+            Text="{loc:Translate TextSave}"
             Command="{Binding GuardarPreguntaCommand}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"

@@ -14,7 +14,7 @@
             TextColor="#335E88"
             Margin="0,20"/>
         <Entry
-            Placeholder="Nombre"
+            Placeholder="{loc:Translate PlaceholderName}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
@@ -23,7 +23,7 @@
             ></Entry>
         <Label Text="{Binding Reg.Username.Error}" TextColor="Red" Margin="10,0" />
         <Entry
-            Placeholder="Correo electronico"
+            Placeholder="{loc:Translate TextEmail}"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
             Margin="10,0"
@@ -32,7 +32,7 @@
             ></Entry>
         <Label Text="{Binding Reg.Email.Error}" TextColor="Red" Margin="10,0" />
         <Entry
-            Placeholder="Contraseña"
+            Placeholder="{loc:Translate TextPass}"
             IsPassword="True"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
@@ -42,7 +42,7 @@
             ></Entry>
         <Label Text="{Binding Reg.Password.Error}" TextColor="Red" Margin="10,0" />
         <Entry
-            Placeholder="Repetir contraseña"
+            Placeholder="{loc:Translate TextPassRepeat}"
             IsPassword="True"
             VerticalOptions="StartAndExpand"
             HorizontalOptions="FillAndExpand"
@@ -63,7 +63,7 @@
             FontSize="18"
             ></Button>
         <Label
-        Text="Ya tienes una cuenta? Inicia sesión"
+        Text="{loc:Translate TextQuestion2}"
         VerticalOptions="Center"
         HorizontalOptions="Center"
         Margin="10,30"

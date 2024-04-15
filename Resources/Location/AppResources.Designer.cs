@@ -61,6 +61,177 @@ namespace TodoList.Resources.Location {
         }
         
         /// <summary>
+        ///   Busca una cadena traducida similar a Cancel task.
+        /// </summary>
+        internal static string CancelTask {
+            get {
+                return ResourceManager.GetString("CancelTask", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Description.
+        /// </summary>
+        internal static string PlaceholderDescrip {
+            get {
+                return ResourceManager.GetString("PlaceholderDescrip", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Name.
+        /// </summary>
+        internal static string PlaceholderName {
+            get {
+                return ResourceManager.GetString("PlaceholderName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Title.
+        /// </summary>
+        internal static string PlaceholderTitle {
+            get {
+                return ResourceManager.GetString("PlaceholderTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Asnwer.
+        /// </summary>
+        internal static string PlacerholderAnswer {
+            get {
+                return ResourceManager.GetString("PlacerholderAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Priority.
+        /// </summary>
+        internal static string Priority {
+            get {
+                return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Question type.
+        /// </summary>
+        internal static string QuestionType {
+            get {
+                return ResourceManager.GetString("QuestionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select your answer.
+        /// </summary>
+        internal static string SelectedAnswer {
+            get {
+                return ResourceManager.GetString("SelectedAnswer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Select File.
+        /// </summary>
+        internal static string SelectFile {
+            get {
+                return ResourceManager.GetString("SelectFile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Survey questions.
+        /// </summary>
+        internal static string SurveyQuestions {
+            get {
+                return ResourceManager.GetString("SurveyQuestions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Task Type.
+        /// </summary>
+        internal static string TaskType {
+            get {
+                return ResourceManager.GetString("TaskType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Email.
+        /// </summary>
+        internal static string TextEmail {
+            get {
+                return ResourceManager.GetString("TextEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Login.
+        /// </summary>
+        internal static string TextInicioSes {
+            get {
+                return ResourceManager.GetString("TextInicioSes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Options.
+        /// </summary>
+        internal static string TextOptions {
+            get {
+                return ResourceManager.GetString("TextOptions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Password.
+        /// </summary>
+        internal static string TextPass {
+            get {
+                return ResourceManager.GetString("TextPass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Repeat password.
+        /// </summary>
+        internal static string TextPassRepeat {
+            get {
+                return ResourceManager.GetString("TextPassRepeat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Don&apos;t have an account? Sign up here.
+        /// </summary>
+        internal static string TextQuestion {
+            get {
+                return ResourceManager.GetString("TextQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Do you already have an account? Log in.
+        /// </summary>
+        internal static string TextQuestion2 {
+            get {
+                return ResourceManager.GetString("TextQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Busca una cadena traducida similar a Save.
+        /// </summary>
+        internal static string TextSave {
+            get {
+                return ResourceManager.GetString("TextSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Busca una cadena traducida similar a Singin.
         /// </summary>
         internal static string TitleLogin {
