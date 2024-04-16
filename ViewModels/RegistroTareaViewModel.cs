@@ -145,7 +145,7 @@ namespace TodoList.ViewModels
                 {
                     IsActivo = true;
                 }
-                if (Tarea.NombreArchivo != null || !string.Empty.Equals(Tarea.NombreArchivo))
+                if (!string.IsNullOrEmpty(Tarea.NombreArchivo))
                 {
                     IsSelectOtherFile = false;
                 }
